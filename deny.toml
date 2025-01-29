@@ -1,0 +1,41 @@
+[licenses]
+confidence-threshold = 0.93
+allow = [
+    "Apache-2.0",
+    "BSD-3-Clause",
+    "ISC",
+    "MIT",
+    "Unicode-3.0",
+]
+
+exceptions = [
+    # ring uses code from multiple libraries but all with permissive licenses
+    # https://tldrlegal.com/license/openssl-license-(openssl)
+    { allow = ["ISC", "MIT", "OpenSSL"], name = "ring" },
+
+    # Zlib is a permissive license akin to MIT
+    { allow = ["Zlib"], crate = "foldhash"},
+
+    # MPL-2.0 is a copyleft license, but we can still fulfill its requirements if:
+    # - We include a copyright notice (which we do through `THIRD_PARTY_LICENSES.md`)
+    # - We include the full license (which we do through `THIRD_PARTY_LICENSES.md`)
+    # - We disclose source-code (which we do, since this tool is open-source)
+    # - We include instructions to obtain the source (which we do through `THIRD_PARTY_LICENSES.md`)
+    { allow = ["MPL-2.0"], crate = "cbindgen"},
+]
+
+[[licenses.clarify]]
+name = "ring"
+expression = "ISC AND MIT AND OpenSSL"
+license-files = [{ path = "LICENSE", hash = 0xbd0eed23 }]
+
+[bans]
+wildcards = "deny"
+multiple-versions = "warn"
+
+[sources]
+unknown-registry = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+
+unknown-git = "deny"
+allow-git = []
